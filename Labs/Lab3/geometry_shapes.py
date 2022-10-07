@@ -8,8 +8,9 @@ class Shape:
         # self._xaxis = xaxis
         # self._radius = tuple(float(r) for r in radius)
     
-    position: tuple = (0,0) # form (x,y)
-    radius: tuple|float|int = (1,1)
+    position: tuple # form (x,y)
+    width: float|int
+    height: float|int
 
     @property
     def position(self):
@@ -24,21 +25,128 @@ class Shape:
         self._position = position
 
     @property
-    def radius(self):
+    def width(self):
         #print("radius getter")
-        return self._radius
+        return self._width
 
-    @radius.setter
-    def radius(self, radius):
+    @width.setter
+    def width(self, width):
         #print("radius setter")
-        if not isinstance(radius, (tuple,float,int)):
-            raise TypeError(f"radius must be an tuple or float not {type(radius).__name__}")
-        self._radius = radius
+        if not isinstance(width, (float,int)):
+            raise TypeError(f"width must be an int or float not {type(width).__name__}")
+        self._width = width
 
-s1 = Shape((1,2), (1,1))
+    @property
+    def height(self):
+        #print("radius getter")
+        return self._height
+
+    @height.setter
+    def height(self, height):
+        #print("radius setter")
+        if not isinstance(height, (float,int)):
+            raise TypeError(f"width must be an int or float not {type(height).__name__}")
+        self._height = height
+
+    def move_position(self, position) -> tuple:
+        self.position = position
+        return self.position
+
+
+class Square(Shape):
+    
+    def __init__(self, position: tuple, width: float|int, height: float|int) -> None:
+        super().__init__(position, width, height)
+
+        self.area = super().width*super().height
+        self.circumference = (super().width*2)+(super().height*2)
+
+    @property
+    def area(self):
+        #print("area getter")
+        return self._area
+
+    @area.setter
+    def area(self, value):
+        #print("area setter")
+        self._area = value
+
+    @property
+    def circumference(self):
+        #print("circumference getter")
+        return self._circumference
+
+    @circumference.setter
+    def circumference(self, value):
+        #print("circumference setter")
+        self._circumference = value
+
+    def is_square(self) -> bool:
+        if self.width == self.height:
+            return True
+        else:
+            return False
+
+    def __eq__(self, other: Square) -> bool:
+        if self.width == other.width and self.height == other.height:
+            return True
+        else:
+            return False
+
+    def __lt__(self, other: Square) -> bool:
+        if self.area < other.area:
+            return True
+        else:
+            return False
+
+    def __gt__(self, other: Square) -> bool:
+        if self.area > other.area:
+            return True
+        else:
+            return False
+
+    def __le__(self, other: Square) -> bool:
+        if self.area <= other.area:
+            return True
+        else:
+            return False
+
+    def __ge__(self, other: Square) -> bool:
+        if self.area >= other.area:
+            return True
+        else:
+            return False
+
+s1 = Shape((1,2), 1, 1)
 print(s1)
 
+print("="*100)
+
 try:
-    s2 = Shape((2,1),"a")
+    s2 = Shape((2,1),"a", 1)
 except TypeError as err:
     print(err)
+try:
+    s1.move_position((1,2))
+except TypeError as err:
+    print(err)
+
+print("="*100)
+
+sq1 = Square((1,1), 8,2)
+sq1.move_position((1,2))
+print(sq1.circumference, sq1.area)
+print(sq1.is_square())
+print("="*100)
+
+sq2 = Square((1,2), 1 , 2)
+
+# should not happen fix 
+sq2.area = 2
+print(sq2.area)
+
+print("="*100)
+
+sq3 = Square((0,0), 8, 1)
+sq4 = Square((0,0), 1, 3)
+print(sq3 > sq4)
