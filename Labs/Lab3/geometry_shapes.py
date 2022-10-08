@@ -23,6 +23,8 @@ class Shape:
         #print("position setter")
         if not isinstance(position, tuple):
             raise TypeError(f"position must be a tuple not {type(position).__name__}")
+        if len(position) != 2:
+            raise ValueError(f"position must consist of an x value and y value")
         self._position = position
 
     @property
@@ -193,8 +195,10 @@ try:
 except TypeError as err:
     print(err)
 try:
-    s1.move_position((1,2))
+    s1.move_position((2,2,2))
 except TypeError as err:
+    print(err)
+except ValueError as err:
     print(err)
 
 print("="*100)
@@ -231,3 +235,9 @@ cir2 = Circle((2,2), 2)
 print(cir1 <= cir2)
 
 print("="*100)
+try:
+    cir3 = Circle((1), 2)
+except ValueError as err:
+    print(err)
+except TypeError as err:
+    print(err)
