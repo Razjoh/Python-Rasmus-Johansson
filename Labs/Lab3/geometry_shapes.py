@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import math
 
 @dataclass
 class Shape:
@@ -117,6 +118,71 @@ class Square(Shape):
         else:
             return False
 
+
+class Circle(Shape):
+    
+    def __init__(self, position: tuple, width: float|int) -> None:
+        super().__init__(position, width, width)
+
+        self.area = ((super().width/2)**2)*math.pi
+        self.circumference = super().width * math.pi
+
+    @property
+    def area(self):
+        #print("area getter")
+        return self._area
+
+    @area.setter
+    def area(self, value):
+        #print("area setter")
+        self._area = value
+
+    @property
+    def circumference(self):
+        #print("circumference getter")
+        return self._circumference
+
+    @circumference.setter
+    def circumference(self, value):
+        #print("circumference setter")
+        self._circumference = value
+
+    def is_unit_circle(self) -> bool:
+        if self.position == (0,0) and self.width == 2:
+            return True
+        else:
+            return False
+
+    def __eq__(self, other: Circle) -> bool:
+        if self.width == other.width:
+            return True
+        else:
+            return False
+
+    def __lt__(self, other: Circle) -> bool:
+        if self.area < other.area:
+            return True
+        else:
+            return False
+
+    def __gt__(self, other: Circle) -> bool:
+        if self.area > other.area:
+            return True
+        else:
+            return False
+
+    def __le__(self, other: Circle) -> bool:
+        if self.area <= other.area:
+            return True
+        else:
+            return False
+
+    def __ge__(self, other: Circle) -> bool:
+        if self.area >= other.area:
+            return True
+        else:
+            return False
+
 s1 = Shape((1,2), 1, 1)
 print(s1)
 
@@ -137,6 +203,7 @@ sq1 = Square((1,1), 8,2)
 sq1.move_position((1,2))
 print(sq1.circumference, sq1.area)
 print(sq1.is_square())
+
 print("="*100)
 
 sq2 = Square((1,2), 1 , 2)
@@ -150,3 +217,17 @@ print("="*100)
 sq3 = Square((0,0), 8, 1)
 sq4 = Square((0,0), 1, 3)
 print(sq3 > sq4)
+
+print("="*100)
+
+cir1 = Circle((0,0), 2)
+print(cir1.is_unit_circle())
+print(cir1.area)
+print(cir1.circumference)
+
+print("="*100)
+
+cir2 = Circle((2,2), 2)
+print(cir1 <= cir2)
+
+print("="*100)
