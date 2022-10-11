@@ -1,6 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass
 import math
+from turtle import width
 
 @dataclass
 class Shape:
@@ -55,37 +56,46 @@ class Shape:
         self.position = position
         return self.position
 
-
+@dataclass
 class Square(Shape):
     
-    def __init__(self, position: tuple, width: float|int, height: float|int) -> None:
-        super().__init__(position, width, height)
+    # def __init__(self, position: tuple, width: float|int, height: float|int) -> None:
+    #     super().__init__(position, width, height)
 
-        self.area = super().width*super().height
-        self.circumference = (super().width*2)+(super().height*2)
+        #self.area = self.width*self.height
+        #self.circumference = (super().width*2)+(super().height*2)
 
     @property
     def area(self):
         #print("area getter")
-        return self._area
+        return self.width*self.height
 
-    @area.setter
-    def area(self, value):
-        #print("area setter")
-        self._area = value
+    # @area.setter
+    # def area(self):
+    #     #print("area setter")
+    #     value = self.width*self.height
+    #     self._area = value
 
     @property
     def circumference(self):
         #print("circumference getter")
-        return self._circumference
+        return self.width*2 + self.height*2
 
-    @circumference.setter
-    def circumference(self, value):
-        #print("circumference setter")
-        self._circumference = value
+    # @circumference.setter
+    # def circumference(self, value):
+    #     #print("circumference setter")
+    #     self._circumference = value
 
     def is_square(self) -> bool:
         if self.width == self.height:
+            return True
+        else:
+            return False
+
+    def is_inside(self, point: tuple) -> bool:
+        min = (self.position[0]-self.width/2, self.position[1]-self.height/2)
+        max = (min[0]+self.width, min[1]+self.width)
+        if min[0] <= point[0] <= max[0] and min[1] <= point[1] <= max[1]:
             return True
         else:
             return False
@@ -126,31 +136,38 @@ class Circle(Shape):
     def __init__(self, position: tuple, width: float|int) -> None:
         super().__init__(position, width, width)
 
-        self.area = ((super().width/2)**2)*math.pi
-        self.circumference = super().width * math.pi
+        #self.area = ((super().width/2)**2)*math.pi
+        #self.circumference = super().width * math.pi
 
     @property
     def area(self):
         #print("area getter")
-        return self._area
+        return ((self.width/2)**2) *math.pi
 
-    @area.setter
-    def area(self, value):
-        #print("area setter")
-        self._area = value
+    # @area.setter
+    # def area(self, value):
+    #     #print("area setter")
+    #     self._area = value
 
     @property
     def circumference(self):
         #print("circumference getter")
-        return self._circumference
+        return self.width * math.pi
 
-    @circumference.setter
-    def circumference(self, value):
-        #print("circumference setter")
-        self._circumference = value
+    # @circumference.setter
+    # def circumference(self, value):
+    #     #print("circumference setter")
+    #     self._circumference = value
 
     def is_unit_circle(self) -> bool:
         if self.position == (0,0) and self.width == 2:
+            return True
+        else:
+            return False
+
+    def is_inside(self, point: tuple) -> bool:
+        distance = math.hypot(point[0]-self.position[0], point[1]-self.position[0])
+        if distance <= self.width/2:
             return True
         else:
             return False
@@ -184,60 +201,3 @@ class Circle(Shape):
             return True
         else:
             return False
-
-s1 = Shape((1,2), 1, 1)
-print(s1)
-
-print("="*100)
-
-try:
-    s2 = Shape((2,1),"a", 1)
-except TypeError as err:
-    print(err)
-try:
-    s1.move_position((2,2,2))
-except TypeError as err:
-    print(err)
-except ValueError as err:
-    print(err)
-
-print("="*100)
-
-sq1 = Square((1,1), 8,2)
-sq1.move_position((1,2))
-print(sq1.circumference, sq1.area)
-print(sq1.is_square())
-
-print("="*100)
-
-sq2 = Square((1,2), 1 , 2)
-
-# should not happen fix 
-sq2.area = 2
-print(sq2.area)
-
-print("="*100)
-
-sq3 = Square((0,0), 8, 1)
-sq4 = Square((0,0), 1, 3)
-print(sq3 > sq4)
-
-print("="*100)
-
-cir1 = Circle((0,0), 2)
-print(cir1.is_unit_circle())
-print(cir1.area)
-print(cir1.circumference)
-
-print("="*100)
-
-cir2 = Circle((2,2), 2)
-print(cir1 <= cir2)
-
-print("="*100)
-try:
-    cir3 = Circle((1), 2)
-except ValueError as err:
-    print(err)
-except TypeError as err:
-    print(err)
