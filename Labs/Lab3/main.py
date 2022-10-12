@@ -4,6 +4,16 @@ import os,sys
 os.system("cls||clear")
 
 
+"""
+TODO:
+- change or fix circle inheritance so that height does not exist, if kept hiden change __repr__/__str__ so it does not print
+- write documentation for all classes and testing? with justifications for choices made  
+- *implement drawfonction for clarification. Either as main function or as class methods 
+- lookover and maybe improve error handeling
+- *implement bonus assignments
+
+"""
+
 s1 = Shape((1,2), 1, 1)
 print(s1)
 
@@ -38,6 +48,7 @@ print(sq3 > sq4)
 print("="*100)
 
 cir1 = Circle((0,0), 2)
+print(cir1)
 print(cir1.is_unit_circle())
 print(cir1.area)
 print(cir1.circumference)
@@ -68,4 +79,6 @@ sq5 = Square((0,0), 2, 2)
 print(sq5.is_inside((-.5,-.5)))
 print(sq5.is_inside((1,0)))
 print(sq5.is_inside((3,2)))
+sq5.move_position((4,4))
+print(sq5.is_inside((1,0)))
 

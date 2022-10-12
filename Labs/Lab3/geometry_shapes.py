@@ -91,7 +91,7 @@ class Square(Shape):
             return True
         else:
             return False
-
+ 
     def is_inside(self, point: tuple) -> bool:
         min = (self.position[0]-self.width/2, self.position[1]-self.height/2)
         max = (min[0]+self.width, min[1]+self.width)
