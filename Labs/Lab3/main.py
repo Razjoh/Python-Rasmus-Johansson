@@ -7,6 +7,7 @@ os.system("cls||clear")
 """
 TODO:
 - change or fix circle inheritance so that height does not exist, if kept hiden change __repr__/__str__ so it does not print
+    - override __repr__ for circle and add __str__ to both circle and square
 - write documentation for all classes and testing? with justifications for choices made  
 - *implement drawfonction for clarification. Either as main function or as class methods 
 - lookover and maybe improve error handeling
@@ -82,3 +83,8 @@ print(sq5.is_inside((3,2)))
 sq5.move_position((4,4))
 print(sq5.is_inside((1,0)))
 
+print("="*100)
+
+cir5 = Circle((2,2), 2)
+print(help(Circle))
+print(cir5)

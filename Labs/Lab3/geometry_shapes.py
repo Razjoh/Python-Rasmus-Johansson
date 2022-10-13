@@ -201,3 +201,6 @@ class Circle(Shape):
             return True
         else:
             return False
+
+
+print(help(Circle))
