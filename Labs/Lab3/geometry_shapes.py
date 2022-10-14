@@ -1,56 +1,72 @@
 from __future__ import annotations
 from dataclasses import dataclass
 import math
-from turtle import width
+from turtle import position, width
 
 @dataclass
 class Shape:
-    #def __init__(self, yaxis: float, xaxis: float, *radius: float) -> None:
-        # self._yaxis = yaxis
-        # self._xaxis = xaxis
-        # self._radius = tuple(float(r) for r in radius)
-    
+    """
+    A class used as base and parent for different shapes
+
+    ...
+
+    Attributes
+    -----------
+    position : tuple
+        a tuple containing the xy coordinates of the shape
+    width : float | int
+        the width of the shape
+    height : float | int
+        the height of the shape
+
+    Methods
+    --------
+    validate_position(position)
+        errorhandling to check if given position is given as propper xy coordinates
+    move_position(position)
+        changes the xy coordinates of the shape
+    """
+
     position: tuple # form (x,y)
     width: float|int
     height: float|int
 
     @property
     def position(self):
-        #print("position getter")
         return self._position
 
     @position.setter
     def position(self, position):
-        #print("position setter")
-        if not isinstance(position, tuple):
-            raise TypeError(f"position must be a tuple not {type(position).__name__}")
-        if len(position) != 2:
-            raise ValueError(f"position must consist of an x value and y value")
+        self.validate_position(position)
         self._position = position
 
     @property
     def width(self):
-        #print("radius getter")
         return self._width
 
     @width.setter
     def width(self, width):
-        #print("radius setter")
         if not isinstance(width, (float,int)):
             raise TypeError(f"width must be an int or float not {type(width).__name__}")
         self._width = width
 
     @property
     def height(self):
-        #print("radius getter")
         return self._height
 
     @height.setter
     def height(self, height):
-        #print("radius setter")
         if not isinstance(height, (float,int)):
             raise TypeError(f"width must be an int or float not {type(height).__name__}")
         self._height = height
+
+    def validate_position(self, position):
+        if not isinstance(position, tuple):
+            raise TypeError(f"position must be a tuple containing an xy value not {type(position).__name__}")
+        if not isinstance(position[0], (int,float)) or not isinstance(position[1], (int,float)):
+            raise TypeError(f"position xy value must be int or float not {type(position[0]).__name__},{type(position[1]).__name__}")
+        if len(position) != 2:
+            raise ValueError(f"position must consist of an x value and y value")
 
     def move_position(self, position) -> tuple:
         self.position = position
@@ -58,33 +74,59 @@ class Shape:
 
 @dataclass
 class Square(Shape):
-    
-    # def __init__(self, position: tuple, width: float|int, height: float|int) -> None:
-    #     super().__init__(position, width, height)
+    # i know that i should've probably named it rectangle not square
+    """
+    Childclass of Shape
+    A class used to represent squares
 
-        #self.area = self.width*self.height
-        #self.circumference = (super().width*2)+(super().height*2)
+    ...
+
+    Attributes
+    -----------
+    position : tuple
+        a tuple containing the xy coordinates of the square
+    width : float | int
+        the width of the square
+    height : float | int
+        the height of the square
+    
+    area
+        the calculated area of the square based on width and height
+    circumference
+        the calculated circumference of the square based on width and height
+
+    Methods
+    --------
+    validate_position(position)
+        errorhandling to check if given position is given as propper xy coordinates
+    move_position(position)
+        changes the xy coordinates of the square
+    is_square()
+        returns true if the square is square and not a rectangle
+    is_inside(position)
+        checks if a xy coordinate is inside of this square
+    __eq__
+        overloads == operator to compare two squares and check if they are equal
+    __lt__
+        overloads < operator to compare if one square is smaller
+    __gt__
+        overloads > operator to compare if one square is larger
+    __le__
+        overloads <= operator to compare if one square is smaller or equal
+    __ge__
+        overloads >= operator to compare if one square is larger or equal
+    """
 
     @property
     def area(self):
-        #print("area getter")
         return self.width*self.height
-
-    # @area.setter
-    # def area(self):
-    #     #print("area setter")
-    #     value = self.width*self.height
-    #     self._area = value
 
     @property
     def circumference(self):
-        #print("circumference getter")
         return self.width*2 + self.height*2
 
-    # @circumference.setter
-    # def circumference(self, value):
-    #     #print("circumference setter")
-    #     self._circumference = value
+    def __str__(self) -> str:
+        return f"Square with the xy coordinates{self.position}, width of {self.width} and height of {self.height}"
 
     def is_square(self) -> bool:
         if self.width == self.height:
@@ -92,10 +134,12 @@ class Square(Shape):
         else:
             return False
  
-    def is_inside(self, point: tuple) -> bool:
+    def is_inside(self, position : tuple) -> bool:
+        self.validate_position(position)
+
         min = (self.position[0]-self.width/2, self.position[1]-self.height/2)
         max = (min[0]+self.width, min[1]+self.width)
-        if min[0] <= point[0] <= max[0] and min[1] <= point[1] <= max[1]:
+        if min[0] <= position[0] <= max[0] and min[1] <= position[1] <= max[1]:
             return True
         else:
             return False
@@ -132,32 +176,64 @@ class Square(Shape):
 
 
 class Circle(Shape):
+    """
+    Childclass of Shape
+    A class used to represent circles
+
+    ...
+
+    Attributes
+    -----------
+    position : tuple
+        a tuple containing the xy coordinates of the circle
+    width : float | int
+        the width or diameter of the circle
     
+    area
+        the calculated area of the circle based on diameter
+    circumference
+        the calculated circumference of the circle based on diameter
+
+    Methods
+    --------
+    validate_position(position)
+        errorhandling to check if given position is given as propper xy coordinates
+    move_position(position)
+        changes the xy coordinates of the circle
+    is_unit_circle
+        checks if the circle meets the requirements of a unit circle
+    is_inside(position)
+        checks if a xy coordinate is inside of this circle
+    __eq__
+        overloads == operator to compare two circles and check if they are equal
+    __lt__
+        overloads < operator to compare if one circle is smaller
+    __gt__
+        overloads > operator to compare if one circle is larger
+    __le__
+        overloads <= operator to compare if one circle is smaller or equal
+    __ge__
+        overloads >= operator to compare if one circle is larger or equal
+    """
+    
+    # did not use dataclass inorder to override width and height from parent class
     def __init__(self, position: tuple, width: float|int) -> None:
         super().__init__(position, width, width)
 
-        #self.area = ((super().width/2)**2)*math.pi
-        #self.circumference = super().width * math.pi
 
     @property
     def area(self):
-        #print("area getter")
         return ((self.width/2)**2) *math.pi
-
-    # @area.setter
-    # def area(self, value):
-    #     #print("area setter")
-    #     self._area = value
 
     @property
     def circumference(self):
-        #print("circumference getter")
         return self.width * math.pi
 
-    # @circumference.setter
-    # def circumference(self, value):
-    #     #print("circumference setter")
-    #     self._circumference = value
+    def __repr__(self) -> str:
+        return f"Circle(position={self.position}, width={self.width})"
+
+    def __str__(self) -> str:
+        return f"Circle with the xy coordinates{self.position} and a diameter of {self.width}"
 
     def is_unit_circle(self) -> bool:
         if self.position == (0,0) and self.width == 2:
@@ -165,8 +241,10 @@ class Circle(Shape):
         else:
             return False
 
-    def is_inside(self, point: tuple) -> bool:
-        distance = math.hypot(point[0]-self.position[0], point[1]-self.position[0])
+    def is_inside(self, position: tuple) -> bool:
+        self.validate_position(position)
+
+        distance = math.hypot(position[0]-self.position[0], position[1]-self.position[0])
         if distance <= self.width/2:
             return True
         else:
@@ -203,4 +281,6 @@ class Circle(Shape):
             return False
 
 
-print(help(Circle))
+cir = Circle((0,0), 2)
+#cir.width = 3
+#print(cir.height, cir.width)

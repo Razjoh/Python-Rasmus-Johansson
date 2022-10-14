@@ -6,12 +6,7 @@ os.system("cls||clear")
 
 """
 TODO:
-- change or fix circle inheritance so that height does not exist, if kept hiden change __repr__/__str__ so it does not print
-    - override __repr__ for circle and add __str__ to both circle and square
-- write documentation for all classes and testing? with justifications for choices made  
 - *implement drawfonction for clarification. Either as main function or as class methods 
-- lookover and maybe improve error handeling
-- *implement bonus assignments
 
 """
 
@@ -67,12 +62,17 @@ except ValueError as err:
 except TypeError as err:
     print(err)
 
+try:
+    cir4 = Circle(("a",2), 2)
+except TypeError as err:
+    print(err)
+
 print("="*100)
 
-cir4 = Circle((0,0), 2)
-print(cir4.is_inside((0,1)))
-print(cir4.is_inside((2,2)))
-print(cir4.is_inside((.5,-.5)))
+cir5 = Circle((0,0), 2)
+print(cir5.is_inside((0,1)))
+print(cir5.is_inside((2,2)))
+print(cir5.is_inside((.5,-.5)))
 
 print("="*100)
 
@@ -85,6 +85,5 @@ print(sq5.is_inside((1,0)))
 
 print("="*100)
 
-cir5 = Circle((2,2), 2)
-print(help(Circle))
-print(cir5)
+cir6 = Circle((2,2), 2)
+print(cir6)
