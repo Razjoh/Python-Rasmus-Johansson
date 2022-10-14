@@ -1,14 +1,8 @@
-from geometry_shapes import Shape,Circle, Square
+from geometry_shapes import Shape, Circle, Square
 import os,sys
 
 os.system("cls||clear")
 
-
-"""
-TODO:
-- *implement drawfonction for clarification. Either as main function or as class methods 
-
-"""
 
 s1 = Shape((1,2), 1, 1)
 print(s1)

@@ -215,7 +215,7 @@ class Circle(Shape):
     __ge__
         overloads >= operator to compare if one circle is larger or equal
     """
-    
+
     # did not use dataclass inorder to override width and height from parent class
     def __init__(self, position: tuple, width: float|int) -> None:
         super().__init__(position, width, width)
@@ -280,7 +280,3 @@ class Circle(Shape):
         else:
             return False
 
-
-cir = Circle((0,0), 2)
-#cir.width = 3
-#print(cir.height, cir.width)
